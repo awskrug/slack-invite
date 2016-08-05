@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AWS 한국 사용자 모임 Slack</title>
+    <!-- CSS Reset -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="milligram.min.css">
+    <style type="text/css">
+      .content {
+          max-width: 450px;
+      }
+
+      .ts {
+          margin-top: 35px;
+      }
+
+      .error {
+          color: #c0392b;
+      }
+
+      .succeed {
+          color: #2c3e50;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="container content">
+        <form class="ts" id="reqForm">
+          <fieldset>
+            <legend>AWS 한국사용자 모임 Slack</legend>
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="hello@example.com" id="emailField">
+            <input class="button-primary" type="submit" value="JOIN">
+            <p class="title result">
+            </p>
+          </fieldset>
+        </form>
+      </section>
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript">
+      (function($, document) {
+        $(document).ready(function() {
+          $("#reqForm").submit(function() {
+            $('input[type="submit"]').prop('disabled', true);
+            var pl = {
+                email: $("#emailField").val()
+            };
+            $.ajax({
+              type: "POST",
+              url: "https://956uxyx6ej.execute-api.ap-northeast-1.amazonaws.com/prod/slack",
+              data: JSON.stringify(pl),
+              contentType: "application/json",
+              dataType: "json",
+              crossDomain: true,
+              headers: {
+                  'x-api-key': "kMupZ06nx12GSGSM36Hpc7e984bHBvBDwAlAIWY7"
+              }
+            }).done(function(data) {
+              if (data.result) {
+                $('.result').text('초대 되었습니다!')
+                    .removeClass("error")
+                    .addClass("succeed");
+              } else {
+                if (data.error == 'already_invited') {
+                  $('.result').text('이미 초대장이 발송되었습니다.')
+                      .removeClass("succeed")
+                      .addClass("error");
+                } else {
+                  $('.result').text(data.error)
+                      .removeClass("succeed")
+                      .addClass("error");
+                }
+              }
+            }).fail(function(data) {
+              $('.result').text('초대 요청에 실패했습니다')
+                  .removeClass("succeed")
+                  .addClass("error");
+            }).always(function() {
+              $('input[type="submit"]').prop('disabled', false);
+            });
+            return false;
+          });
+        });
+      })(jQuery, document);
+    </script>
+  </body>
+</html>
