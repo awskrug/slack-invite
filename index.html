@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AWS 한국 사용자 모임 Slack</title>
+    <title>AWSKRUG Slack Invitation</title>
     <!-- CSS Reset -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
     <link rel="stylesheet" href="milligram.min.css">
@@ -30,7 +30,7 @@
       <section class="container content">
         <form class="ts" id="reqForm">
           <fieldset>
-            <legend>AWS 한국사용자 모임 Slack</legend>
+            <legend>AWSKRUG Slack Channel</legend>
             <label for="email">Email</label>
             <input type="email" name="email" placeholder="hello@example.com" id="emailField">
             <input class="button-primary" type="submit" value="JOIN">
@@ -61,12 +61,12 @@
               }
             }).done(function(data) {
               if (data.result) {
-                $('.result').text('초대 되었습니다!')
+                $('.result').text('Your invitation was sent!')
                     .removeClass("error")
                     .addClass("succeed");
               } else {
                 if (data.error == 'already_invited') {
-                  $('.result').text('이미 초대장이 발송되었습니다.')
+                  $('.result').text('Already sent!')
                       .removeClass("succeed")
                       .addClass("error");
                 } else {
@@ -76,7 +76,7 @@
                 }
               }
             }).fail(function(data) {
-              $('.result').text('초대 요청에 실패했습니다')
+              $('.result').text('Invitation was failed')
                   .removeClass("succeed")
                   .addClass("error");
             }).always(function() {
